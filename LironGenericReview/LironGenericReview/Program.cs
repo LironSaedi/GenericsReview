@@ -22,6 +22,10 @@ namespace LironGenericReview
             //add items to it
             //remove items from it
             myList<int> list = new myList<int>(3);
+
+            int[] array = new int[3];
+
+            
             //add items
             //remove items
             list.Add(5);
@@ -30,10 +34,14 @@ namespace LironGenericReview
             list.Add(7);
             list.Add(8);
 
-            Console.WriteLine(list.Remove(5));
-            Console.WriteLine(list.Remove(10));
+          //  Console.WriteLine(list.Remove(5));
+           // Console.WriteLine(list.Remove(10));
 
 
+            //list.CopyTo(array, 0);
+
+            list.Insert(3, 10);
+            ;
             list.RemoveAt(2);
 
             //list.RemoveAt(8);
