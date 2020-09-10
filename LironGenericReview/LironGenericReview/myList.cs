@@ -8,46 +8,47 @@ using System.Text;
 
 namespace LironGenericReview
 {
-    class myList<T> : IList<T>
+    class MyList
+        <T> : IList<T>
     {
         T[] data;
         int minimumCapacity;
-        public myList(int minimumCapacity)
+        public MyList(int minimumCapacity)
         {
             this.minimumCapacity = minimumCapacity;
             data = new T[minimumCapacity];
             Count = 0;
         }
 
-        public T this[int index] { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public T this[int index] { get { return data[index]; } set { data[index] = value; } }
 
         public int Count { get; set; }
 
-        public bool IsReadOnly => throw new NotImplementedException();
+        public bool IsReadOnly => false;
 
         public void Add(T item)
         {
-                if (!(data.Length == Count))
-                {
-                    data[Count] = item;
+            if (!(data.Length == Count))
+            {
+                data[Count] = item;
 
-                    Count++;
+                Count++;
+            }
+
+            else
+            {
+                T[] temp = new T[data.Length * 2];
+                for (int i = 0; i < data.Length; i++)
+                {
+                    temp[i] = data[i];
                 }
 
-                else
-                {
-                    T[] temp = new T[data.Length * 2];
-                    for (int i = 0; i < data.Length; i++)
-                    {
-                        temp[i] = data[i];
-                    }
+                data = temp;
 
-                    data = temp;
+                data[Count] = item;
+                Count++;
 
-                    data[Count] = item;
-                    Count++;
-
-                }
+            }
 
         }
 
@@ -83,14 +84,22 @@ namespace LironGenericReview
 
         public IEnumerator<T> GetEnumerator()
         {
-            throw new NotImplementedException();
+            //foreach (var item in data)
+            //{
+            //    yield return item;
+            //}
+
+            for (int i = 0; i < data.Length; i++)
+            {
+                yield return data[i];
+            }
         }
 
         public int IndexOf(T item)
         {
             for (int i = 0; i < data.Length; i++)
             {
-                if(item.Equals(data[i]))
+                if (item.Equals(data[i]))
                 {
                     return i;
                 }
@@ -102,40 +111,44 @@ namespace LironGenericReview
         public void Insert(int index, T item)
         {
 
+            T temporary;
+
             T[] temp = new T[data.Length * 2];
             for (int i = 0; i < data.Length; i++)
             {
                 temp[i] = data[i];
             }
 
-          data = temp;
-         data[index] = item;
-            Count++;
-            
-                for (int i = index; i < Count; i++)
-                {
-                    data[i] = data[i + 1];
-                }
-               // data[index] = item;
-
-               // Count++;
-            
-
            
-            
-                /*
-                T[] temp = new T[data.Length * 2];
-                for (int i = 0; i < data.Length; i++)
-                {
-                    temp[i] = data[i];
-                }
+           for (int i = index; i < Count-1; i++)
+            {
 
-                data = temp;
+                temporary = data[i+1];
+                data[i+1] = data[i];
+                data[i + 2] = temporary;
+            }
+            // data[index] = item;
+            data = temp;
+            data[index] = item;
+            Count++;
+            // Count++;
 
-                data[Count] = item;
-                Count++;
-                */
-            
+
+
+
+            /*
+            T[] temp = new T[data.Length * 2];
+            for (int i = 0; i < data.Length; i++)
+            {
+                temp[i] = data[i];
+            }
+
+            data = temp;
+
+            data[Count] = item;
+            Count++;
+            */
+
         }
 
         public bool Remove(T item)
@@ -175,7 +188,7 @@ namespace LironGenericReview
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            throw new NotImplementedException();
+            return GetEnumerator();
         }
     }
 }
